@@ -48,7 +48,7 @@ public class S3ClientManager {
         LOG.info("\n S3Client updated... ");
     }
 
-    public boolean isS3ClientValid(S3Client client) {
+    private boolean isS3ClientValid(S3Client client) {
         try {
             client.listBuckets();
             return true;

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import java.util.Properties;
+
 @Component
 public class ChangeS3PropertiesPublisher {
 
@@ -17,7 +19,7 @@ public class ChangeS3PropertiesPublisher {
 
     public void publishEvent() {
         LOG.info("\n--- Публикую событие...");
-        ChangeS3ConnectionPropertiesEvent event = new ChangeS3ConnectionPropertiesEvent("I'm a new S3 connection property");
+        ChangeS3ConnectionPropertiesEvent event = new ChangeS3ConnectionPropertiesEvent(new Properties());
         applicationEventPublisher.publishEvent(event);
     }
 }
