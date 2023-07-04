@@ -1,4 +1,4 @@
-package com.example.touchingawss3;
+package com.example.touchingawss3.publisher;
 
 import com.example.touchingawss3.publisher.ChangeS3PropertiesPublisher;
 import org.junit.jupiter.api.Test;

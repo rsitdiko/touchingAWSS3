@@ -1,5 +1,6 @@
 package com.example.touchingawss3.manager;
 
+import com.example.touchingawss3.collection.FixedLengthQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +9,6 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 import java.util.Properties;
 
 public class S3ClientManager {
@@ -20,10 +20,10 @@ public class S3ClientManager {
     @Value("${s3/secret-key}")
     private String secretKey;
 
-    private Map<String, S3Client> clients;
+    private FixedLengthQueue<S3Client> clients;
 
-    public S3Client getS3Client() {
-        return clients.get("new");
+    public Object getS3Client() {
+        return clients.get();
     }
 
     public void updateActualS3Client(Properties properties) {
@@ -43,8 +43,7 @@ public class S3ClientManager {
             return;
         }
 
-        clients.put("old", clients.get("new"));
-        clients.put("new", newClient);
+        clients.add(newClient);
         LOG.info("\n S3Client updated... ");
     }
 
@@ -65,7 +64,7 @@ public class S3ClientManager {
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
                 .build();
 
-        clients = Map.of("old", null, "new", client);
+        clients.add(client);
     }
 
 
